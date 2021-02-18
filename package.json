@@ -1,0 +1,37 @@
+{
+  "name": "pm2-slack",
+  "version": "1.1.0",
+  "description": "A PM2 module to emit events to Slack",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pm2",
+    "slack"
+  ],
+  "dependencies": {
+    "pm2": "^0.15.10",
+    "pmx": "^0.5.5",
+    "request": "^2.67.0"
+  },
+  "config": {
+    "slack_url": null,
+    "log": false,
+    "error": true,
+    "kill": true,
+    "exception": true,
+    "restart": false,
+    "reload": false,
+    "delete": false,
+    "stop": false,
+    "restart overlimit": true,
+    "exit": false,
+    "start": false,
+    "online": false,
+    "buffer": true,
+    "buffer_seconds": 2,
+    "queue_max": 100,
+    "buffer_max_seconds": 20
+  }
+}
