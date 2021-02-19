@@ -51,6 +51,30 @@ function parseIncommingLog(logMessage) {
     }
 }
 
+/**
+ * Add the message to appropriate message queue (each Slack URL has own independent message enqueing).
+ *
+ * @param {Message} message
+ * @returns {Boolean}
+ */
+function testMessageWithIngoreRegexs(message) {
+    const ignoreRegexStrings = moduleConfig['ignoreRegexs'] || [];
+    
+    if (!(ignoreRegexStrings.length > 0)) return true;
+    for (let i = 0; i < ignoreRegexStrings.length; i++) {
+        try {
+            const regexElement = new RegExp(ignoreRegexStrings[i]);
+            if (regexElement.test(message.description)) return true;
+        } catch (_) {
+            moduleConfig['ignoreRegexs'] = undefined;
+            console.error('inavalid regex -> ', ignoreRegexStrings[i]);
+            return false;
+        }
+    }
+
+    return false;
+}
+
 
 const slackUrlRouter = {
     /**
@@ -70,7 +94,7 @@ const slackUrlRouter = {
         const processName = message.name;
         const slackUrl = moduleConfig['slack_url-' + processName] || moduleConfig['slack_url'];
 
-        if (!slackUrl) {
+        if (!slackUrl && testMessageWithIngoreRegexs(message)) {
             return;
             // No Slack URL defined for this process and no global Slack URL exists.
         }

@@ -17,6 +17,9 @@
   },
   "config": {
     "slack_url": null,
+    "ignoreRegexs": [
+      "node_modules/@elastic/elasticsearch/lib/Transport.js"
+    ],
     "log": false,
     "error": true,
     "kill": true,
